@@ -1,21 +1,31 @@
 {
   "name": "medical-sound-touch",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --clearScreen false --port 5000",
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.5.2",
+    "@tailwindcss/line-clamp": "^0.4.0",
+    "@tailwindcss/typography": "^0.5.2",
     "@tauri-apps/cli": "^1.0.0-rc.13",
+    "autoprefixer": "^10.4.7",
+    "daisyui": "^2.15.1",
+    "postcss": "^8.4.14",
     "svelte": "^3.44.0",
+    "tailwindcss": "^3.0.24",
     "vite": "^2.9.9"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.0.0-rc.6"
+    "@tauri-apps/api": "^1.0.0-rc.6",
+    "hotkeys-js": "^3.9.4",
+    "svelte-spa-router": "^3.2.0"
   }
 }
