@@ -6,6 +6,7 @@
 
   import {
     appWindow,
+    LogicalPosition,
     LogicalSize
   } from '@tauri-apps/api/window';
 
@@ -29,7 +30,7 @@
 
   appWindow.listen('tauri://focus', ({ event }) => {
     if(!isVisible) {
-      if(isFromHide) registerLangKLey();
+      if(isFromHide) registerLangLey();
       console.log("##FOCUS##", isFromHide);
       if(!_isSetting && isFromHide) registerAllHotKeys();
     }
@@ -93,10 +94,10 @@
       unregisterAllHotKeys();
       reloadHotkeys();
       if(!_isSetting) {
-        registerLangKLey();
+        registerLangLey();
         registerAllHotKeys();
       } else {
-        registerLangKLey();
+        registerLangLey();
       }
     } else {
       isFromHide = false;
@@ -117,7 +118,7 @@
       .catch();
   }
 
-  function registerLangKLey() {
+  function registerLangLey() {
     registerShortcut(LANG_TOGGLE_HOTKEY, () => {
       let _target;
       let _current = Number(_langCode);
@@ -152,27 +153,27 @@
   }
 
   function registerAllHotKeys() {
-    registerShortcut(TOGGLE_HOTKEY_1, () => { handleClick(1) });
-    registerShortcut(TOGGLE_HOTKEY_2, () => { handleClick(2) });
-    registerShortcut(TOGGLE_HOTKEY_3, () => { handleClick(3) });
-    registerShortcut(TOGGLE_HOTKEY_4, () => { handleClick(4) });
-    registerShortcut(TOGGLE_HOTKEY_5, () => { handleClick(5) });
-    registerShortcut(TOGGLE_HOTKEY_6, () => { handleClick(6) });
-    registerShortcut(TOGGLE_HOTKEY_7, () => { handleClick(7) });
-    registerShortcut(TOGGLE_HOTKEY_8, () => { handleClick(8) });
-    registerShortcut(TOGGLE_HOTKEY_9, () => { handleClick(9) });
+    if($lists["buttons"][0].published) registerShortcut(TOGGLE_HOTKEY_1, () => { handleClick(1) });
+    if($lists["buttons"][1].published) registerShortcut(TOGGLE_HOTKEY_2, () => { handleClick(2) });
+    if($lists["buttons"][2].published) registerShortcut(TOGGLE_HOTKEY_3, () => { handleClick(3) });
+    if($lists["buttons"][3].published) registerShortcut(TOGGLE_HOTKEY_4, () => { handleClick(4) });
+    if($lists["buttons"][4].published) registerShortcut(TOGGLE_HOTKEY_5, () => { handleClick(5) });
+    if($lists["buttons"][5].published) registerShortcut(TOGGLE_HOTKEY_6, () => { handleClick(6) });
+    if($lists["buttons"][6].published) registerShortcut(TOGGLE_HOTKEY_7, () => { handleClick(7) });
+    if($lists["buttons"][7].published) registerShortcut(TOGGLE_HOTKEY_8, () => { handleClick(8) });
+    if($lists["buttons"][8].published) registerShortcut(TOGGLE_HOTKEY_9, () => { handleClick(9) });
   }
 
   function unregisterAllHotKeys() {
-    unregister(TOGGLE_HOTKEY_1);
-    unregister(TOGGLE_HOTKEY_2);
-    unregister(TOGGLE_HOTKEY_3);
-    unregister(TOGGLE_HOTKEY_4);
-    unregister(TOGGLE_HOTKEY_5);
-    unregister(TOGGLE_HOTKEY_6);
-    unregister(TOGGLE_HOTKEY_7);
-    unregister(TOGGLE_HOTKEY_8);
-    unregister(TOGGLE_HOTKEY_9);
+    if($lists["buttons"][0].published) unregister(TOGGLE_HOTKEY_1);
+    if($lists["buttons"][1].published) unregister(TOGGLE_HOTKEY_2);
+    if($lists["buttons"][2].published) unregister(TOGGLE_HOTKEY_3);
+    if($lists["buttons"][3].published) unregister(TOGGLE_HOTKEY_4);
+    if($lists["buttons"][4].published) unregister(TOGGLE_HOTKEY_5);
+    if($lists["buttons"][5].published) unregister(TOGGLE_HOTKEY_6);
+    if($lists["buttons"][6].published) unregister(TOGGLE_HOTKEY_7);
+    if($lists["buttons"][7].published) unregister(TOGGLE_HOTKEY_8);
+    if($lists["buttons"][8].published) unregister(TOGGLE_HOTKEY_9);
   }
 
   const getSoundFile = async (fileName) => {
@@ -224,6 +225,8 @@
     // }
   }
 
+  let isMax = false;
+
   onMount(() => {
     windowMap[selectedWindow].center();
     windowMap[selectedWindow].setAlwaysOnTop(true);
@@ -234,8 +237,8 @@
       reloadHotkeys();
       unregisterAllHotKeys();
       registerInvoke();
-      registerLangKLey();
-      registerAllHotKeys();
+      registerLangLey();
+      // registerAllHotKeys();
     }, 500);
 
     document
@@ -246,6 +249,22 @@
         invoke("handle_short_key");
         appWindow.hide();
         isVisible = false;
+      });
+
+    document
+      .getElementById('titlebar-maximize')
+      .addEventListener('click', () => {
+        if(!isMax) {
+          appWindow.maximize();
+          isMax = true;
+          // appWindow.setPosition(new LogicalPosition(0, 0));
+        } else {
+          appWindow.setSize(new LogicalSize(1024, 600));
+          isMax = false;
+          setTimeout(() => {
+            windowMap[selectedWindow].center();
+          }, 10);
+        }
       });
 
     document
@@ -264,12 +283,12 @@
     switch (arg) {
       case 0:
         _isSetting = false;
-        windowMap[selectedWindow].setSize(new LogicalSize(1280, 278));
+        // windowMap[selectedWindow].setSize(new LogicalSize(1024, 600));
         push("/");
         break;
       case 1:
         _isSetting = false;
-        windowMap[selectedWindow].setSize(new LogicalSize(1280, 278));
+        // windowMap[selectedWindow].setSize(new LogicalSize(1024, 600));
         push("/main");
         shortcut = $lists["invoke_key"];
         LANG_TOGGLE_HOTKEY = $lists["lang_change_key"];
@@ -278,16 +297,18 @@
         unregisterAllHotKeys();
         reloadHotkeys();
         setTimeout(() => {
+          windowMap[selectedWindow].center();
+          windowMap[selectedWindow].setAlwaysOnTop(true);
+        }, 10);
+        setTimeout(() => {
           console.log("REGISTER");
           registerInvoke();
-          registerLangKLey();
+          registerLangLey();
         }, 100);
-        windowMap[selectedWindow].center();
-        windowMap[selectedWindow].setAlwaysOnTop(true);
         break;
       case 2:
         _isSetting = true;
-        windowMap[selectedWindow].setSize(new LogicalSize(1280, 1000));
+        // windowMap[selectedWindow].setSize(new LogicalSize(1024, 600));
         push("/config");
         shortcut = $lists["invoke_key"];
         LANG_TOGGLE_HOTKEY = $lists["lang_change_key"];
@@ -296,11 +317,13 @@
         unregisterAllHotKeys();
         reloadHotkeys();
         setTimeout(() => {
+          windowMap[selectedWindow].center();
+          windowMap[selectedWindow].setAlwaysOnTop(true);
+        }, 10);
+        setTimeout(() => {
           registerInvoke();
-          registerLangKLey();
+          registerLangLey();
         }, 100);
-        windowMap[selectedWindow].center();
-        windowMap[selectedWindow].setAlwaysOnTop(true);
         break;
     }
   }
@@ -318,7 +341,7 @@
     langText.set(_language);
 
     _show = false;
-    handleReset();
+    // handleReset();
   }
 
   // 볼륨 조절
@@ -364,6 +387,12 @@
   <div id="titlebar-minimize" class="items-end titlebar-button" >
     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+    </svg>
+  </div>
+
+  <div id="titlebar-maximize" class="items-end ml-4 titlebar-button" >
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
     </svg>
   </div>
 

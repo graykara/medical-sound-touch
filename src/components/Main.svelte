@@ -45,7 +45,7 @@
         setImageFile("img_" + i + "." + ext).then(res => {
           let _src = convertFileSrc(res.toString());
           _images.push(_src);
-          document.getElementById('img_' + i).setAttribute('src', _src);
+          if($lists["buttons"][i - 1].published) document.getElementById('img_' + i).setAttribute('src', _src);
         });
       }
     }, 20);
@@ -115,16 +115,18 @@
   }
 </script>
 
-<div id="main-contents" class="flex px-8 py-8 bg-sky-100">
+<!-- <div id="main-contents" class="grid grid-flow-row grid-cols-5 gap-4 px-8 py-10"> -->
+<div id="main-contents" class="grid grid-flow-row-dense grid-cols-4 gap-2 px-8 py-10">
 {#if possible == true }
   {#each {length: 9} as _, index}
     {#if _lists[index].published}
-      <div class="relative select-none">
-        <span class="absolute z-20 text-red-900 left-4 top-2">{_lists[index].key}</span>
+      <div class="relative text-center select-none">
+
         <!-- <div id="tooltip_{_lists[index].id}" class="text-white" on:mouseleave={() => handleLeave()} on:mouseover={() => handleOver(index)}> -->
         <div id="tooltip_{_lists[index].id}" class="text-white tooltip tooltip-info tooltip-bottom" data-tip="{_lists[index]["message"]}">
+          <span class="absolute z-20 text-2xl text-red-900 left-4 top-2">{_lists[index].key}</span>
           <div id="btn_{_lists[index].id}" class="z-10 btn-info main_btn" on:click={() => handleClick(_lists[index].id)}>
-            <img id="img_{_lists[index].id}" class="object-cover shadow-xl rounded-2xl" src="" alt="{_lists[index].id}" />
+            <img id="img_{_lists[index].id}" class="object-cover shadow-xl max-h-44 rounded-2xl" src="" alt="{_lists[index].id}" />
           </div>
         </div>
       </div>
@@ -136,14 +138,17 @@
 
 <style lang="postcss">
   .main_btn {
-    @apply btn btn-outline w-32 h-32 mx-1 p-1 rounded-2xl bg-white;
+    @apply btn btn-outline w-auto h-auto mx-1 p-1 rounded-2xl bg-white;
   }
   .tooltip::before {
-    @apply text-white text-2xl max-w-screen-2xl z-50 w-full;
+    @apply text-white text-4xl max-w-full py-4 z-50 w-full;
     position: fixed;
     left: 0%;
-    top: calc(50% + 4.25em);
+    top: calc(100% - 2em);
     transform: unset;
     background-color: rgba(58,191,248, 1);
+  }
+  .tooltip::after {
+    content: unset;
   }
 </style>

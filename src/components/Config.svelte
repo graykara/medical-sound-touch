@@ -364,7 +364,7 @@
 </script>
 
 <div>
-  <div class="px-4 py-4 overflow-x-auto">
+  <div id="config-content" class="px-4 py-4 overflow-x-auto">
     <h3 class="px-2 mb-4 text-lg font-medium leading-6 text-white select-none">설정</h3>
 
     <table class="table w-full mb-4 table-compact">
@@ -542,5 +542,8 @@
 </div>
 
 <style lang="postcss">
-
+  #config-content {
+    min-height: calc(600px - 86px);
+    height: calc(600px - 86px);
+  }
 </style>

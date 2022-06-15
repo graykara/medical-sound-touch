@@ -116,18 +116,18 @@
         "center": true,
         "decorations": false,
         "fullscreen": false,
-        "height": 278,
+        "height": 600,
         "resizable": false,
         "title": "Medical Sound Touch",
         "visible": false,
-        "width": 1280
+        "width": 1024
       },
       {
         "center": true,
         "decorations": false,
         "label": "splashscreen",
         "url": "splashscreen.html",
-        "width": 400,
+        "width": 480,
         "height": 200
       }
     ]
