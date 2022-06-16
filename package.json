@@ -24,7 +24,7 @@
     "vite": "^2.9.9"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1.0.0",
+    "@tauri-apps/api": "^1.0.0-rc.7",
     "hotkeys-js": "^3.9.4",
     "svelte-spa-router": "^3.2.0"
   }

@@ -6,6 +6,7 @@
 
   import {
     appWindow,
+    currentMonitor,
     LogicalPosition,
     LogicalSize
   } from '@tauri-apps/api/window';
@@ -19,6 +20,7 @@
 
   import { langCode, langText, volumeEnable, audio } from '../lib/store';
   import { lists } from '../lib/Lists';
+import { app } from '@tauri-apps/api';
 
   let langValue;
   let langTValue;
@@ -255,7 +257,11 @@
       .getElementById('titlebar-maximize')
       .addEventListener('click', () => {
         if(!isMax) {
-          appWindow.maximize();
+          // appWindow.maximize();
+          currentMonitor().then(res => {
+            appWindow.setSize(new LogicalSize(res.size.width, res.size.height));
+            appWindow.setPosition(new LogicalPosition(res.position.x, res.position.y));
+          });
           isMax = true;
           // appWindow.setPosition(new LogicalPosition(0, 0));
         } else {

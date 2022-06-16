@@ -141,7 +141,7 @@
     @apply btn btn-outline w-auto h-auto mx-1 p-1 rounded-2xl bg-white;
   }
   .tooltip::before {
-    @apply text-white text-4xl max-w-full py-4 z-50 w-full;
+    @apply text-white text-3xl max-w-full py-4 z-50 w-full;
     position: fixed;
     left: 0%;
     top: calc(100% - 2em);
