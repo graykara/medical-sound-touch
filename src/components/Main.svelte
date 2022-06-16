@@ -40,7 +40,7 @@
     }, 10);
 
     setTimeout(() => {
-      for(let i = 1; i <= 9; i++) {
+      for(let i = 1; i <= 10; i++) {
         let ext = $lists["buttons"][i - 1]["image"].split('.')[1];
         setImageFile("img_" + i + "." + ext).then(res => {
           let _src = convertFileSrc(res.toString());
@@ -116,17 +116,17 @@
 </script>
 
 <!-- <div id="main-contents" class="grid grid-flow-row grid-cols-5 gap-4 px-8 py-10"> -->
-<div id="main-contents" class="grid grid-flow-row-dense grid-cols-4 gap-2 px-8 py-10">
+<div id="main-contents" class="grid grid-flow-row-dense grid-cols-5 gap-4 px-8 py-16">
 {#if possible == true }
-  {#each {length: 9} as _, index}
+  {#each {length: 10} as _, index}
     {#if _lists[index].published}
-      <div class="relative text-center select-none">
+      <div class="relative mb-2 text-center select-none">
 
         <!-- <div id="tooltip_{_lists[index].id}" class="text-white" on:mouseleave={() => handleLeave()} on:mouseover={() => handleOver(index)}> -->
-        <div id="tooltip_{_lists[index].id}" class="text-white tooltip tooltip-info tooltip-bottom" data-tip="{_lists[index]["message"]}">
-          <span class="absolute z-20 text-2xl text-red-900 left-4 top-2">{_lists[index].key}</span>
+        <div id="tooltip_{_lists[index].id}" class="text-white tooltip tooltip-info tooltip-bottom shadowed-text" data-tip="{_lists[index]["message"]}">
+          <span class="absolute z-20 text-2xl shadowed-text-bold text text-white-900 left-4 top-2 xl:text-5xl xl:left-10 xl:top-6">{_lists[index].key}</span>
           <div id="btn_{_lists[index].id}" class="z-10 btn-info main_btn" on:click={() => handleClick(_lists[index].id)}>
-            <img id="img_{_lists[index].id}" class="object-cover shadow-xl max-h-44 rounded-2xl" src="" alt="{_lists[index].id}" />
+            <img id="img_{_lists[index].id}" class="object-cover shadow-xl max-h-fit rounded-2xl" src="" alt="{_lists[index].id}" />
           </div>
         </div>
       </div>
@@ -150,5 +150,11 @@
   }
   .tooltip::after {
     content: unset;
+  }
+  .shadowed-text-bold {
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.85);
+  }
+  .shadowed-text {
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
   }
 </style>

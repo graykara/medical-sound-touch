@@ -241,15 +241,15 @@
       // registerAllHotKeys();
     }, 500);
 
-    document
-      .getElementById('titlebar-minimize')
-      .addEventListener('click', () => {
-        unregisterAllHotKeys();
-        unregister(LANG_TOGGLE_HOTKEY);
-        invoke("handle_short_key");
-        appWindow.hide();
-        isVisible = false;
-      });
+    // document
+    //   .getElementById('titlebar-minimize')
+    //   .addEventListener('click', () => {
+    //     unregisterAllHotKeys();
+    //     unregister(LANG_TOGGLE_HOTKEY);
+    //     invoke("handle_short_key");
+    //     appWindow.hide();
+    //     isVisible = false;
+    //   });
 
     document
       .getElementById('titlebar-maximize')
@@ -267,11 +267,11 @@
         }
       });
 
-    document
-      .getElementById('titlebar-close')
-      .addEventListener('click', () => {
-        invoke("handle_quit");
-      });
+    // document
+    //   .getElementById('titlebar-close')
+    //   .addEventListener('click', () => {
+    //     invoke("handle_quit");
+    //   });
   });
 
   onDestroy(() => {
@@ -374,7 +374,7 @@
         document.getElementById("btn-reset").classList.add("hidden");
       }, 200);
 
-      for(let i = 1; i <= 9; i++) {
+      for(let i = 1; i <= 10; i++) {
         let _id = document.getElementById("btn_" + i);
         _id.classList.remove("grayscale");
       }
@@ -382,7 +382,7 @@
   }
 </script>
 
-<div id="windowMenu" data-tauri-drag-region class="flex bg-black titlebar">
+<!-- <div id="windowMenu" data-tauri-drag-region class="flex bg-black titlebar">
 
   <div id="titlebar-minimize" class="items-end titlebar-button" >
     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -401,13 +401,13 @@
       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
     </svg>
   </div>
-</div>
+</div> -->
 
 <div class="with-title-bar">
   {#if !_init}
   <div id="nav" class="flex min-h-0 px-10 py-1 m-0 navbar bg-gradient-to-b from-sky-700 to-sky-400">
-    <div class="flex items-start justify-start flex-none w-40 cursor-default">
-      <p class="text-xl font-bold text-white normal-case select-none">Medical Sound</p>
+    <div class="flex items-start justify-start flex-none w-60 cursor-default">
+      <p id="titlebar-maximize" class="text-xl font-bold text-white normal-case select-none">Medical Sound Touch</p>
     </div>
 
     <div class="flex items-center justify-center grow">
@@ -442,7 +442,7 @@
       </div>
     </div>
 
-    <div class="flex items-end justify-end flex-none w-40">
+    <div class="flex items-end justify-end flex-none w-60">
 
       <label id="btn-reset" class="hidden mr-4 swap swap-rotate">
 
@@ -501,34 +501,6 @@
   }
 
   .with-title-bar {
-    margin-top: 30px;
+    margin-top: 0px;
   }
-
-  .titlebar {
-    width: 100%;
-    height: 30px;
-    user-select: none;
-    display: flex;
-    justify-content: flex-end;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    cursor: move;
-    -webkit-app-region: no-drag;
-  }
-  .titlebar-button {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 30px;
-    color: #fff;
-    cursor: pointer;
-    -webkit-app-region: no-drag;
-  }
-  .titlebar-button:hover {
-    @apply bg-red-600;
-  }
-
 </style>

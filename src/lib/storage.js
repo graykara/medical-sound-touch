@@ -47,7 +47,7 @@ const initData = {
       key: "1",
       image: "1.png",
       sound: "1.mp4",
-      message: "바닥에 발 모양 위에 서시고, 턱을 대고 양팔을 벌려 기계를 안으세요.",
+      message: "탈의실로 가서, 브레지어 목걸이 빼시고, 가운으로 갈아 입고 나오세요.",
     },
     {
       id: "2",
@@ -55,7 +55,7 @@ const initData = {
       key: "2",
       image: "2.png",
       sound: "2.mp4",
-      message: "숨을 깊게 들어마시고, 숨 참으세요.",
+      message: "바닥에 발 모양 위에 서시고, 턱을 대고 양팔을 벌려 기계를 안으세요.",
     },
     {
       id: "3",
@@ -63,7 +63,7 @@ const initData = {
       key: "3",
       image: "3.png",
       sound: "3.mp4",
-      message: "촬영이 끝났습니다. 옷 갈아입으시면 됩니다.",
+      message: "숨을 깊게 들어마시고, 숨 참으세요.",
     },
     {
       id: "4",
@@ -71,7 +71,7 @@ const initData = {
       key: "4",
       image: "4.png",
       sound: "4.mp4",
-      message: "메시지를 읽어주세요. - 4",
+      message: "촬영이 끝났습니다. 옷 갈아입으시면 됩니다.",
     },
     {
       id: "5",
@@ -79,7 +79,7 @@ const initData = {
       key: "5",
       image: "5.png",
       sound: "5.mp4",
-      message: "메시지를 읽어주세요. - 5",
+      message: "메시지 - 5",
     },
     {
       id: "6",
@@ -87,7 +87,7 @@ const initData = {
       key: "6",
       image: "6.png",
       sound: "6.mp4",
-      message: "메시지를 읽어주세요. - 6",
+      message: "메시지 - 6",
     },
     {
       id: "7",
@@ -95,7 +95,7 @@ const initData = {
       key: "7",
       image: "7.png",
       sound: "7.mp4",
-      message: "메시지를 읽어주세요. - 7",
+      message: "메시지 - 7",
     },
     {
       id: "8",
@@ -103,7 +103,7 @@ const initData = {
       key: "8",
       image: "8.png",
       sound: "8.mp4",
-      message: "메시지를 읽어주세요. - 8",
+      message: "메시지 - 8",
     },
     {
       id: "9",
@@ -111,7 +111,15 @@ const initData = {
       key: "9",
       image: "9.png",
       sound: "9.mp4",
-      message: "메시지를 읽어주세요. - 9",
+      message: "메시지 - 9",
+    },
+    {
+      id: "10",
+      published: true,
+      key: "0",
+      image: "10.png",
+      sound: "10.mp4",
+      message: "메시지 - 10",
     }
   ],
   languages: [
@@ -122,43 +130,43 @@ const initData = {
     },
     {
       id: "2",
-      name: "태국어",
+      name: "중국어",
       published: true
     },
     {
       id: "3",
-      name: "",
-      published: false
+      name: "일본어",
+      published: true
     },
     {
       id: "4",
-      name: "",
-      published: false
+      name: "태국어",
+      published: true
     },
     {
       id: "5",
-      name: "",
-      published: false
+      name: "베트남",
+      published: true
     },
     {
       id: "6",
-      name: "",
-      published: false
+      name: "인도네시아",
+      published: true
     },
     {
       id: "7",
-      name: "",
-      published: false
+      name: "우즈베키스탄",
+      published: true
     },
     {
       id: "8",
-      name: "",
-      published: false
+      name: "영어",
+      published: true
     },
     {
       id: "9",
-      name: "",
-      published: false
+      name: "러시아",
+      published: true
     },
     {
       id: "10",
@@ -213,20 +221,17 @@ const _createDatabase = async () => {
 
     for(var i = 1; i <= 9; i++) {
       console.log(dir);
-      await copyFile(
-        srcPath + "/assets/sounds/1_"+i+".mp3",
-        "medical-sound-touch-data/sounds/1_"+i+".mp3",
-        {
-          dir: dir
-        }
-      );
-      await copyFile(
-        srcPath + "/assets/sounds/2_"+i+".mp3",
-        "medical-sound-touch-data/sounds/2_"+i+".mp3",
-        {
-          dir: dir
-        }
-      );
+      for(var j = 1; j <= 4; j++) {
+        await copyFile(
+          srcPath + "/assets/sounds/" + i + "_" + j + ".mp3",
+          "medical-sound-touch-data/sounds/" + i + "_" + j + ".mp3",
+          {
+            dir: dir
+          }
+        );
+      }
+    }
+    for(var i = 1; i <= 10; i++) {
       await copyFile(
         srcPath + "/assets/images/img_"+i+".png",
         "medical-sound-touch-data/images/img_"+i+".png",
