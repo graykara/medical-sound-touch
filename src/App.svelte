@@ -11,6 +11,14 @@
 
   import { lists, list_store } from './lib/Lists';
 
+  import {
+    currentMonitor,
+    availableMonitors,
+    appWindow,
+    LogicalSize,
+    LogicalPosition
+  } from '@tauri-apps/api/window';
+
   const routes = {
     '/': Welcome,
     '/main': Main,
@@ -23,6 +31,30 @@
   onMount(() => {
     setTimeout(() => {
       promise = $lists;
+
+      setTimeout(() => {
+        let selectedMonitor = $lists["selected_monitor"];
+
+        let _monitors = [];
+
+        availableMonitors().then(res => {
+          let count = 0;
+          res.forEach(val => {
+            count++
+            _monitors.push(val);
+            if(count >= res.length) {
+              _monitors.forEach(monitor => {
+                if(selectedMonitor == monitor.name) {
+                  appWindow.setPosition(new LogicalPosition(monitor.position.x / monitor.scaleFactor, 0)).then(res => {
+                    appWindow.center();
+                    appWindow.show();
+                  });
+                }
+              });
+            }
+          });
+        });
+      }, 100);
     }, 100);
   });
 

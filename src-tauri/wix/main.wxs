@@ -9,7 +9,7 @@
 <?error Unsupported value of sys.BUILDARCH=$(sys.BUILDARCH)?>
 <?endif?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="*" Name="medical-sound-touch" UpgradeCode="1a7cf99a-9f9d-5ff4-b6cb-510a4c25f32a" Language="!(loc.TauriLanguage)" Manufacturer="medical-sound-touch" Version="0.2.0">
+    <Product Id="*" Name="medical-sound-touch" UpgradeCode="1a7cf99a-9f9d-5ff4-b6cb-510a4c25f32a" Language="!(loc.TauriLanguage)" Manufacturer="medical-sound-touch" Version="0.2.1">
         <Package Id="*" Keywords="Installer" InstallerVersion="450" Languages="0" Compressed="yes" InstallScope="perMachine" SummaryCodepage="!(loc.TauriCodepage)" />
         <!-- https://docs.microsoft.com/en-us/windows/win32/msi/reinstallmode -->
         <!-- reinstall all files; rewrite all registry entries; reinstall all shortcuts -->

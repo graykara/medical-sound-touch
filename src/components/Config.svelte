@@ -386,6 +386,7 @@
     appWindow.setPosition(new LogicalPosition(_target.position.x / _target.scaleFactor, 0)).then(res => {
       appWindow.center();
       appWindow.show();
+      $lists["selected_monitor"] = _target.name;
     });
 
   }
@@ -400,7 +401,6 @@
       let count = 0;
       res.forEach(val => {
         count++
-        console.log("val",val, count, res.length);
         _monitors.push(val);
         if(count >= res.length) {
           setTimeout(() => {
@@ -412,7 +412,6 @@
 
     currentMonitor().then(res => {
       _currentMonitor = res;
-      console.log("current", res);
     });
   });
 </script>
