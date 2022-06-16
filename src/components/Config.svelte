@@ -1,4 +1,5 @@
 <script>
+  import { onMount, onDestroy } from "svelte";
   import { dataDir, join } from '@tauri-apps/api/path';
   import { langCode, langText, audio } from '../lib/store';
   import { convertFileSrc } from '@tauri-apps/api/tauri';
@@ -17,6 +18,14 @@
     unregister,
     unregisterAll
   } from "@tauri-apps/api/globalShortcut";
+
+  import {
+    currentMonitor,
+    availableMonitors,
+    appWindow,
+    LogicalSize,
+    LogicalPosition
+  } from '@tauri-apps/api/window';
 
   let langValue;
 
@@ -361,10 +370,55 @@
       }
     });
   }
+
+
+
+  const onChangeMonitor = e => {
+    let idx = Number(e.target.id.split("_")[1]);
+    let _target = _monitors[idx];
+
+    appWindow.hide();
+
+    globalThis.isMax = false;
+
+    appWindow.setSize(new LogicalSize(1024, 600));
+
+    appWindow.setPosition(new LogicalPosition(_target.position.x / _target.scaleFactor, 0)).then(res => {
+      appWindow.center();
+      appWindow.show();
+    });
+
+  }
+
+  let _currentMonitor;
+  let _monitors = [];
+
+  let promise = false;
+
+  onMount(() => {
+    availableMonitors().then(res => {
+      let count = 0;
+      res.forEach(val => {
+        count++
+        console.log("val",val, count, res.length);
+        _monitors.push(val);
+        if(count >= res.length) {
+          setTimeout(() => {
+            promise = true;
+          }, 500);
+        }
+      });
+    });
+
+    currentMonitor().then(res => {
+      _currentMonitor = res;
+      console.log("current", res);
+    });
+  });
 </script>
 
 <div>
-  <div id="config-content" class="h-56 px-4 py-4 overflow-y-auto min-h-fit xl:h-fit">
+  <div id="config-content" class="h-56 px-4 py-4 overflow-y-auto">
     <h3 class="px-2 mb-4 text-lg font-medium leading-6 text-white select-none">설정</h3>
 
     <table class="table w-full mb-4 table-compact">
@@ -387,6 +441,28 @@
           <td>
             <input class="w-auto text-center text-gray-900 bg-white kbd kbd-md" on:keyup={onLangKeyUp} on:keypress={onLangKey} value={langKey} />
             <span class="ml-4 text-white select-none"><kbd class="kbd">Shift</kbd> 또는 <kbd class="kbd">Ctrl</kbd> 키 <kbd class="kbd">+</kbd> 숫자(<kbd class="kbd">0</kbd>~<kbd class="kbd">9</kbd>) 또는 영문(<kbd class="kbd">a</kbd>~<kbd class="kbd">z</kbd>) 조합으로 사용 가능합니다.</span>
+          </td>
+        </tr>
+        <tr class="h-14">
+          <td class="text-center text-white select-none">모니터 설정</td>
+          <td>
+            {#if promise}
+              {#each _monitors as monitor, idx }
+              <div class="inline-block">
+                <input type="radio" name="selectMonitor" id="monitor_{idx}" on:change="{onChangeMonitor}" class="inline-grid radio" checked="{monitor.name == _currentMonitor.name}" />
+                <label for="monitor_{idx}" class="cursor-pointer">
+                  <span class="inline-grid pt-3 ml-4 mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </span>
+                  <span class="inline-grid w-32 mr-8">
+                    <kbd class="absolute kbd kbd-md -mt-7">{monitor.size.width} x {monitor.size.height}</kbd>
+                  </span>
+                </label>
+              </div>
+              {/each}
+            {/if}
           </td>
         </tr>
       </tbody>
@@ -544,7 +620,7 @@
 <style lang="postcss">
   #config-content {
     min-height: calc(600px - 56px);
-    /* height: calc(600px - 56px); */
+    height: calc(100vh - 56px);
     overflow-y: auto;
   }
 </style>

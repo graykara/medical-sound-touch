@@ -227,7 +227,7 @@ import { app } from '@tauri-apps/api';
     // }
   }
 
-  let isMax = false;
+  globalThis.isMax = false;
 
   onMount(() => {
     windowMap[selectedWindow].center();
@@ -256,17 +256,18 @@ import { app } from '@tauri-apps/api';
     document
       .getElementById('titlebar-maximize')
       .addEventListener('click', () => {
-        if(!isMax) {
+        if(!globalThis.isMax) {
           // appWindow.maximize();
           currentMonitor().then(res => {
-            appWindow.setSize(new LogicalSize(res.size.width, res.size.height));
-            appWindow.setPosition(new LogicalPosition(res.position.x, res.position.y));
+            let factor = res.scaleFactor;
+            appWindow.setSize(new LogicalSize(res.size.width / factor, res.size.height / factor));
+            appWindow.setPosition(new LogicalPosition(res.position.x / factor, res.position.y / factor));
           });
-          isMax = true;
+          globalThis.isMax = true;
           // appWindow.setPosition(new LogicalPosition(0, 0));
         } else {
           appWindow.setSize(new LogicalSize(1024, 600));
-          isMax = false;
+          globalThis.isMax = false;
           setTimeout(() => {
             windowMap[selectedWindow].center();
           }, 10);
@@ -412,8 +413,8 @@ import { app } from '@tauri-apps/api';
 <div class="with-title-bar">
   {#if !_init}
   <div id="nav" class="flex min-h-0 px-10 py-1 m-0 navbar bg-gradient-to-b from-sky-700 to-sky-400">
-    <div class="flex items-start justify-start flex-none w-60 cursor-default">
-      <p id="titlebar-maximize" class="text-xl font-bold text-white normal-case select-none">Medical Sound Touch</p>
+    <div class="flex items-start justify-start flex-none cursor-default w-60">
+      <p id="titlebar-maximize" class="text-xl font-bold text-white normal-case cursor-pointer select-none">Medical Sound Touch</p>
     </div>
 
     <div class="flex items-center justify-center grow">
